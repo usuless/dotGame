@@ -8,17 +8,23 @@ let game: string = `---------------------
 |..----....|.........
 |....................
 `
-let parsedGame: string[] = game.split("\n")
+const parsedGame: string[] = game.split("\n")
+const lineLength = parsedGame[0].length
 
-console.log(parsedGame)
+const gridLength = `grid-cols-${lineLength}`
 
 </script>
 
 <template>
-  <div v-for="line in parsedGame" class="">
-    <p>{{line}}</p>
+  <p class="bg-red-500">test</p>
+  <div  v-for="line in parsedGame">
+    <div v-for="letter in line" class="grid-cols-5">
+      <p class="color-red">
+        {{ letter }}
+      </p>
+    </div>
   </div>
-
+{{ gridLength }}
 </template>
 
 <style scoped>
