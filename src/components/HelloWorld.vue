@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Ref } from 'vue';
+import { moveRight } from '../utilities/moveSet';
+
 
 let game: Ref<string> =ref(
 `
@@ -13,14 +15,14 @@ let game: Ref<string> =ref(
 |....................
 `)
 
-let parsedGame: string[] = game.value.split("\n")
+let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
 
 let playerLocation: number[]
 
 let findPlayer = () => {
-  for(let i=0; i < parsedGame.length; i++) {
-    for(let idx=0;i < parsedGame[i].length; i++) {
-      if(parsedGame[i][idx] === "X") {
+  for(let i=0; i < parsedGame.value.length; i++) {
+    for(let idx = 0; idx < parsedGame.value[i].length; idx++) {
+      if(parsedGame.value[i][idx] === "X") {
         playerLocation = [i, idx]
         return
       }
@@ -28,13 +30,7 @@ let findPlayer = () => {
   }
 }
 
-let moveRight = () => {
-  
-}
 
-let testFn = () => {
-  console.log(parsedGame)
-}
 
 document.addEventListener('keydown', function(e) {
     if(e.key === "w") {
@@ -42,17 +38,19 @@ document.addEventListener('keydown', function(e) {
     }
     
     if(e.key === "a") {
-    console.log("mamy cie") 
+      console.log("działa")
     }
     
     if(e.key === "s") {
-    console.log("mamy cie") 
+      console.log("mamy cie") 
     }
     
-    if(e.key === "d") {
-    console.log("mamy cie") 
+    if(e.key === "ArrowRight") {
+      parsedGame.value = moveRight(parsedGame.value, playerLocation)
+      findPlayer()
     }
     
+    console.log(e.key) 
     
 })
 
@@ -70,8 +68,7 @@ findPlayer()
       {{ letter }}
     </div>
   </div>
-  <button @click="testFn">click</button>
-
+  {{ playerLocation }}
 </template>
 
 <style scoped>
