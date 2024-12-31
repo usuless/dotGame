@@ -4,6 +4,7 @@ export const moveRight = (map: string[], playerLocation: number[]) => {
     if (playerLocation[1] === map[1].length - 1 || walls.includes(map[playerLocation[0]][playerLocation[1] + 1])) {
         return map;
     }
+
     let line = map[playerLocation[0]];
     let parsedLine = [...line];
     parsedLine[playerLocation[1]] = ".";
