@@ -6,19 +6,19 @@ import { moveRight, moveLeft, moveUp, moveDown } from '../utilities/moveSet';
 let player: string[] = ["X", "V", ">", "<", "^"]
 
 let game: Ref<string> =ref(
-`
----------------------
+`---------------------
 |.X..................
 |..|.................
 |..|.......----------
 |..|.......|.........
 |..----....|.........
-|....................
+|...................Z
 `)
 
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
 
 let playerLocation: number[]
+let ghostLocation: number[]
 
 let findPlayer = () => {
   for(let i=0; i < parsedGame.value.length; i++) {
@@ -30,7 +30,6 @@ let findPlayer = () => {
     }
   }
 }
-
 
 
 document.addEventListener('keydown', function(e) {
@@ -58,19 +57,35 @@ document.addEventListener('keydown', function(e) {
     
 })
 
+const roadblocks = ["|", "-"]
+
+const element = {
+  class: "bg-red-500"
+}
+
+let checker = (e: string) => {
+  if(e === ".") {
+    element.class = "bg-white"
+  } else if (player.includes(e)) {
+    element.class = "bg-green-500"
+  } else if(roadblocks.includes(e)) {
+    element.class = "bg-red-500"
+  }
+  return element
+}
+
 findPlayer()
 </script>
 
 <template>
   <div class="flex flex-col h-full pt-10 items-center">
-    <div class="flex justify-around space-x-4 space-y-4 w-2/12" v-for="line in parsedGame">
+    <div class="flex justify-around w-2/12" v-for="line in parsedGame">
       <div class="" v-for="letter in line">
-        <p class="size-2">
-          {{ letter }}
+        <p class="size-4"  v-bind="checker(letter)">
         </p>
       </div>
     </div>
-    <p class="mt-10">
+    <p class="">
       {{ playerLocation }}
     </p>
   </div>
