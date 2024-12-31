@@ -7,7 +7,7 @@ export const moveRight = (map: string[], playerLocation: number[]) => {
     let line = map[playerLocation[0]];
     let parsedLine = [...line];
     parsedLine[playerLocation[1]] = ".";
-    parsedLine[playerLocation[1] + 1] = ">";
+    parsedLine[playerLocation[1] + 1] = "X";
     line = parsedLine.join("");
     map[playerLocation[0]] = line;
     return map;
@@ -20,7 +20,7 @@ export const moveLeft = (map: string[], playerLocation: number[]) => {
     let line = map[playerLocation[0]];
     let parsedLine = [...line];
     parsedLine[playerLocation[1]] = ".";
-    parsedLine[playerLocation[1] - 1] = "<";
+    parsedLine[playerLocation[1] - 1] = "X";
     line = parsedLine.join("");
     map[playerLocation[0]] = line;
     return map;
@@ -35,7 +35,7 @@ export const moveUp = (map: string[], playerLocation: number[]) => {
     let parsedLine = [...previousLine];
     let parsedNextLine = [...nextLine]
     parsedLine[playerLocation[1]] = ".";
-    parsedNextLine[playerLocation[1]] = "^";
+    parsedNextLine[playerLocation[1]] = "X";
     previousLine = parsedLine.join("");
     nextLine = parsedNextLine.join("")
     map[playerLocation[0] - 1] = nextLine
@@ -52,7 +52,7 @@ export const moveDown = (map: string[], playerLocation: number[]) => {
     let parsedLine = [...previousLine];
     let parsedNextLine = [...nextLine]
     parsedLine[playerLocation[1]] = ".";
-    parsedNextLine[playerLocation[1]] = "V";
+    parsedNextLine[playerLocation[1]] = "X";
     previousLine = parsedLine.join("");
     nextLine = parsedNextLine.join("")
     map[playerLocation[0] + 1] = nextLine
