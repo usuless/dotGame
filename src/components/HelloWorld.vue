@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import type { Ref } from 'vue';
 import { moveRight, moveLeft, moveUp, moveDown } from '../utilities/moveSet';
 import { findTarget } from '../utilities/findTarget';
 import { fieldCheck } from '../utilities/fieldChecker';
 import { placePoint } from '../utilities/placePoint';
+import { setTimer } from '../utilities/timer';
 
 let game: Ref<string> =ref(
 `----------------------
@@ -27,6 +28,8 @@ let game: Ref<string> =ref(
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
 let playerLocation: number[] = findTarget(parsedGame.value, "X")
 let points: Ref<number> = ref(0)
+
+// PRZENIEŚĆ DO KEYHANDLERA
 
 document.addEventListener('keydown', function(e) {
     switch(e.key) {
@@ -51,7 +54,14 @@ document.addEventListener('keydown', function(e) {
         }
 })
 
-console.log("*")
+let timer = setTimer(20)
+
+watchEffect(async () => {
+  if(timer.isExpired.value) {
+    console.log("DZIAŁO")
+  }
+})
+
 parsedGame.value = placePoint(parsedGame.value)
 let pointLocation = findTarget(parsedGame.value, "*")
 </script>
@@ -67,6 +77,7 @@ let pointLocation = findTarget(parsedGame.value, "*")
     <p class="">
       {{ playerLocation }}
       {{ pointLocation }}
+      {{ timer.seconds }}
     </p>
     <p>
       {{ points }}
