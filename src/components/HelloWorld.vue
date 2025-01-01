@@ -26,8 +26,7 @@ let game: Ref<string> =ref(
 
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
 let playerLocation: number[] = findTarget(parsedGame.value, "X")
-
-
+let points: Ref<number> = ref(0)
 
 document.addEventListener('keydown', function(e) {
     switch(e.key) {
@@ -43,12 +42,18 @@ document.addEventListener('keydown', function(e) {
       case "ArrowRight":
         parsedGame.value = moveRight(parsedGame.value, playerLocation)
         break
-    }  
-    playerLocation = findTarget(parsedGame.value, "X")
+      }  
+      playerLocation = findTarget(parsedGame.value, "X")
+      if(pointLocation[0] === playerLocation[0] && pointLocation[1] === playerLocation[1]) {
+          points.value ++
+          parsedGame.value = placePoint(parsedGame.value)
+          pointLocation = findTarget(parsedGame.value, "*")
+        }
 })
 
+console.log("*")
 parsedGame.value = placePoint(parsedGame.value)
-findTarget(parsedGame.value, "X")
+let pointLocation = findTarget(parsedGame.value, "*")
 </script>
 
 <template>
@@ -61,6 +66,10 @@ findTarget(parsedGame.value, "X")
     </div>
     <p class="">
       {{ playerLocation }}
+      {{ pointLocation }}
+    </p>
+    <p>
+      {{ points }}
     </p>
   </div>
 </template>

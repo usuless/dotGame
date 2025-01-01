@@ -11,7 +11,7 @@ export let fieldCheck = (e: string) => {
     } else if(roadblocks.includes(e)) {
       element.class = "bg-red-500"
     } else if(e === '*') {
-      element.class = "bg-yellow-500"
+      element.class = "bg-yellow-500 border-solid border-2 border-black"
     }
     return element
   }

@@ -1,17 +1,13 @@
-
 const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * max);
 }
 
-
-
 export const placePoint = (map: string[]) => {
-    let randomY = getRandomInt(map.length - 2)
-    let randomX = getRandomInt(map[randomY].length - 2)
-    console.log(randomY,randomX)
+    let randomY = getRandomInt(map.length)
+    let randomX = getRandomInt(map[randomY].length)
     while(map[randomY][randomX] != ".") {
-        randomY = getRandomInt(map.length - 2)
-        randomX = getRandomInt(map[randomY].length - 2)
+        randomY = getRandomInt(map.length)
+        randomX = getRandomInt(map[randomY].length)
     }
 
     let line = map[randomY];
