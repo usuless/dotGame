@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref} from 'vue';
+import { computed, reactive, ref} from 'vue';
 import type { Ref } from 'vue';
 import Timer from './Timer.vue';
 import UIFx from 'uifx';
@@ -17,23 +17,33 @@ let points: Ref<number> = ref(0)
 let pointSound = new UIFx(
   sound,
   {
-    volume: 0.3,
-    throttleMs: 50
+    volume: 0.2,
+    throttleMs: 0
   }
 )
+let isGameOn: Ref<boolean> = ref(false)
+let wallpaper = reactive({
+  class: "bg-black opacity-35"
+})
+let timeOfRound: number
 
 document.addEventListener('keydown', function(e) {
+  if(isGameOn.value == false && e.key === "arrowDown" || "arrowUp" || "arrowLeft" || "arrowRight" ) {
+    isGameOn.value = true
+    timeOfRound = 20
+    wallpaper.class = ""
+  }
       parsedGame.value = handleKey(e.key, parsedGame.value, playerLocation)    
 
       playerLocation = findTarget(parsedGame.value, "X")
       if(pointLocation[0] === playerLocation[0] && pointLocation[1] === playerLocation[1]) {
           points.value ++
           pointSound.play()
+          timeOfRound += 3
           parsedGame.value = placePoint(parsedGame.value)
           pointLocation = findTarget(parsedGame.value, "*")
         }
 })
-
 
 parsedGame.value = placePoint(parsedGame.value)
 let pointLocation = findTarget(parsedGame.value, "*")
@@ -41,20 +51,17 @@ let pointLocation = findTarget(parsedGame.value, "*")
 
 <template>
   <div class="flex flex-col h-full pt-10 items-center">
-    <Timer/>
-    <div class="flex justify-around w-2/12" v-for="line in parsedGame">
-      <div class="" v-for="letter in line">
-        <p class="size-4"  v-bind="fieldCheck(letter)">
-        </p>
+    <Timer v-model:time="timeOfRound" v-model:is-game-on="isGameOn"/>
+      <div v-bind="wallpaper" class="flex justify-around w-2/12" v-for="line in parsedGame">
+        <div class="" v-for="letter in line">
+          <p class="size-4"  v-bind="fieldCheck(letter)">
+          </p>
+        </div>
       </div>
-    </div>
-    <p class="">
-      {{ playerLocation }}
-      {{ pointLocation }}
-    </p>
     <p>
       {{ points }}
     </p>
+    <p v-if="!isGameOn">Naciśnij jedną ze strzałek, żeby rozpocząć grę</p>
   </div>
 </template>
 
