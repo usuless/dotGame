@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, ref} from 'vue';
+import { reactive, ref} from 'vue';
+import { setTimer } from '../utilities/timer';
 import type { Ref } from 'vue';
 import Timer from './Timer.vue';
 import UIFx from 'uifx';
@@ -25,12 +26,13 @@ let isGameOn: Ref<boolean> = ref(false)
 let wallpaper = reactive({
   class: "bg-black opacity-35"
 })
-let timeOfRound: number
+let timer: Ref<any> = ref(0)
+let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 
 document.addEventListener('keydown', function(e) {
-  if(isGameOn.value == false && e.key === "arrowDown" || "arrowUp" || "arrowLeft" || "arrowRight" ) {
+  if(isGameOn.value === false && moves.includes(e.key)) {
     isGameOn.value = true
-    timeOfRound = 20
+    timer.value = setTimer(15)
     wallpaper.class = ""
   }
       parsedGame.value = handleKey(e.key, parsedGame.value, playerLocation)    
@@ -39,7 +41,6 @@ document.addEventListener('keydown', function(e) {
       if(pointLocation[0] === playerLocation[0] && pointLocation[1] === playerLocation[1]) {
           points.value ++
           pointSound.play()
-          timeOfRound += 3
           parsedGame.value = placePoint(parsedGame.value)
           pointLocation = findTarget(parsedGame.value, "*")
         }
@@ -51,7 +52,7 @@ let pointLocation = findTarget(parsedGame.value, "*")
 
 <template>
   <div class="flex flex-col h-full pt-10 items-center">
-    <Timer v-model:time="timeOfRound" v-model:is-game-on="isGameOn"/>
+    <Timer v-model:time="timer.seconds" v-model:is-game-on="isGameOn"/>
       <div v-bind="wallpaper" class="flex justify-around w-2/12" v-for="line in parsedGame">
         <div class="" v-for="letter in line">
           <p class="size-4"  v-bind="fieldCheck(letter)">
