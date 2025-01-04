@@ -8,6 +8,7 @@ import { fieldCheck } from '../utilities/fieldChecker';
 import { placePoint } from '../utilities/placePoint';
 import { gameFile } from '../assets/game';
 import sound from "../assets/sfx/sound.mp3"
+import Timer from './Timer.vue';
 
 let game: Ref<string> =ref(gameFile)
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
@@ -48,6 +49,7 @@ let pointLocation = findTarget(parsedGame.value, "*")
 </script>
 
 <template>
+  <Timer/>
   <div class="flex flex-col h-full pt-10 items-center">
       <div v-bind="wallpaper" class="flex justify-around w-2/12" v-for="line in parsedGame">
         <div class="" v-for="letter in line">
@@ -61,6 +63,3 @@ let pointLocation = findTarget(parsedGame.value, "*")
     <p v-if="!isGameOn">Naciśnij jedną ze strzałek, żeby rozpocząć grę</p>
   </div>
 </template>
-
-<style scoped>
-</style>
