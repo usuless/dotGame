@@ -45,12 +45,11 @@ document.addEventListener('keydown', function(e) {
 
 parsedGame.value = placePoint(parsedGame.value)
 let pointLocation = findTarget(parsedGame.value, "*")
-
 </script>
 
 <template>
-  <Timer/>
   <div class="flex flex-col h-full pt-10 items-center">
+    <Timer v-model:points="points" v-model:is-game-on="isGameOn"/>
       <div v-bind="wallpaper" class="flex justify-around w-2/12" v-for="line in parsedGame">
         <div class="" v-for="letter in line">
           <p class="size-4"  v-bind="fieldCheck(letter)">
