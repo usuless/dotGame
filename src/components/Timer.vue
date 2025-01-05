@@ -1,34 +1,36 @@
 <template>
   <div>
-      <h1>vue-timer-hook </h1>
-      <p>Timer Demo</p>
       <div>
-          <span>{{timer.days}}</span>:<span>{{timer.hours}}</span>:<span>{{timer.minutes}}</span>:<span>{{timer.seconds}}</span>
+        <p class="text-5xl">
+          {{seconds}}
+        </p>
       </div>
-      <p>{{timer.isRunning ? 'Running' : 'Not running'}}</p>
-      <button @click="restartFive()">Restart</button>
   </div>
+  <button @click="addThreeSeconds">Test</button>
 </template>
 
 
 <script setup lang="ts">
-import {  watchEffect, onMounted } from "vue";
+import { computed } from 'vue';
 import { useTimer } from 'vue-timer-hook';
 
 const time = new Date();
-time.setSeconds(time.getSeconds() + 600); // 10 minutes timer
+time.setSeconds(time.getSeconds() + 20);
 const timer = useTimer(time);
-const restartFive = () => {
-  // Restarts to 5 minutes timer
+
+const addThreeSeconds = () => {
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 300);
-  timer.restart(time);
+  time.setSeconds(time.getSeconds() + 3 + timer.seconds.value);
+  timer.restart(time)
 }
-onMounted(() => {
-watchEffect(async () => {
-  if(timer.isExpired.value) {
-      console.warn('IsExpired')
+
+
+let seconds = computed(() => {
+  if(timer.seconds.value.toString().length === 1) {
+    return "0" + timer.seconds.value.toString()
+  } else {
+    return timer.seconds.value.toString()
   }
 })
-})
+
 </script>
