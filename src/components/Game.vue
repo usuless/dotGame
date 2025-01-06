@@ -46,7 +46,6 @@ document.addEventListener('keydown', function(e) {
 parsedGame.value = placePoint(parsedGame.value)
 let pointLocation = findTarget(parsedGame.value, "*")
 </script>
-
 <template>
   <div class="flex flex-col h-full pt-10 items-center">
     <Timer v-model:points="points" v-model:is-game-on="isGameOn"/>
@@ -56,9 +55,9 @@ let pointLocation = findTarget(parsedGame.value, "*")
           </p>
         </div>
       </div>
-    <p>
-      {{ points }}
-    </p>
-    <p v-if="!isGameOn">Naciśnij jedną ze strzałek, żeby rozpocząć grę</p>
+        <p class="text-5xl mt-5">
+          {{ points }}
+        </p>
+    <p class="mt-5" v-if="!isGameOn">Naciśnij &#8592; &#8593;  &#8594; &#8595;, żeby grać</p>
   </div>
 </template>

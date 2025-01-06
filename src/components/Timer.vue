@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
+import type { Ref } from 'vue';
 import { useTimer, type UseTimer } from 'vue-timer-hook';
 
 let points = defineModel("points", {type: Number})
 let isGameOn = defineModel("isGameOn",{type: Boolean})
 
 let time = new Date()
+let pointGain: Ref<boolean> = ref(false)
 
 const startTime = () => {
   time = new Date()
   time.setSeconds(time.getSeconds() + 20);
+  //@ts-ignore
   timer = useTimer(time)
 }
 
-//@ts-ignore
 let timer: UseTimer;
 
 const addSecond = () => {
@@ -24,7 +26,7 @@ const addSecond = () => {
 }
 
 
-let seconds = computed(() => {
+const seconds = computed(() => {
   if (isGameOn.value === false) {
     return "20"
   }
@@ -35,8 +37,14 @@ let seconds = computed(() => {
   }
 })
 
+const pointGained = () => {
+  pointGain.value = true
+  setTimeout(() => {pointGain.value = false}, 600)
+}
+
 watch(points, () => {
   addSecond()
+  pointGained()
 })
 
 watch(isGameOn, () => {
@@ -47,10 +55,10 @@ watch(isGameOn, () => {
 
 </script>
 <template>
-  {{ isGameOn }}
-  <div class="mb-10">
-        <p class="text-5xl">
-          {{seconds}}
-        </p>
+  <div class="mb-10 text-5xl flex bg-background">
+    <p v-show="!pointGain" class="justify-self-center">
+      {{seconds}}
+    </p>
+        <p v-show="pointGain" class="text-yellow-400">  +1 Sec</p>
   </div>
 </template>
