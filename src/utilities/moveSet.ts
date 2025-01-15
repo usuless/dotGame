@@ -1,4 +1,3 @@
-
 const walls = ["-", "|"]
 
 export const moveRight = (map: string[], playerLocation: number[]) => {

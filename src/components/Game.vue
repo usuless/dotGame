@@ -21,6 +21,7 @@ let pointSound = new UIFx(
     throttleMs: 0
   }
 )
+
 let isGameOn: Ref<boolean> = ref(false)
 let wallpaper = reactive({
   class: "bg-black opacity-35"
