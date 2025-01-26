@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import Game from './components/Game.vue'
+import HomeView from './components/HomeView.vue';
 
 onMounted(() => {
   document.body.style.backgroundImage = 'url("/src/bg/background.svg")';
@@ -8,7 +8,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Game />
+  <HomeView/>
 </template>
 
 <style scoped>

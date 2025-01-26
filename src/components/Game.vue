@@ -28,22 +28,30 @@ let wallpaper = reactive({
 })
 let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 
-document.addEventListener('keydown', function(e) {
-  if(isGameOn.value === false && moves.includes(e.key)) {
-    isGameOn.value = true
-    wallpaper.class = ""
-  }
-      parsedGame.value = handleKey(e.key, parsedGame.value, playerLocation)    
+// poruszanie się
 
-      playerLocation = findTarget(parsedGame.value, "X")
-      if(pointLocation[0] === playerLocation[0] && pointLocation[1] === playerLocation[1]) {
-          points.value ++
-          pointSound.play()
-          parsedGame.value = placePoint(parsedGame.value)
-          pointLocation = findTarget(parsedGame.value, "*")
-        }
+document.addEventListener('keydown', function(e) {
+  if(moves.includes(e.key)) {
+    if(isGameOn.value === false) {
+      isGameOn.value = true
+      wallpaper.class = ""
+    }
+      // rozpoczęcie gry
+          parsedGame.value = handleKey(e.key, parsedGame.value, playerLocation)    
+    
+          playerLocation = findTarget(parsedGame.value, "X")
+          // gracz znalazł punkt
+          if(pointLocation[0] === playerLocation[0] && pointLocation[1] === playerLocation[1]) {
+              points.value ++
+              pointSound.play()
+              parsedGame.value = placePoint(parsedGame.value)
+              pointLocation = findTarget(parsedGame.value, "*")
+            }
+
+  }
 })
 
+// lokalizacja gracza i punktu
 parsedGame.value = placePoint(parsedGame.value)
 let pointLocation = findTarget(parsedGame.value, "*")
 </script>
