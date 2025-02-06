@@ -11,7 +11,7 @@ let pointGain: Ref<boolean> = ref(false)
 
 const startTime = () => {
   time = new Date()
-  time.setSeconds(time.getSeconds() + 5);
+  time.setSeconds(time.getSeconds() + 20);
   //@ts-ignore
   timer = useTimer(time)
 }
@@ -57,7 +57,7 @@ watch(isGameOn, () => {
 <template>
   <div class="mb-10 text-5xl flex bg-background">
     <p v-show="!pointGain" class="justify-self-center">
-      {{seconds}} {{ isGameOn }}
+      {{seconds}}
     </p>
         <p v-show="pointGain" class="text-yellow-400">  +1 Sec</p>
   </div>
