@@ -2,13 +2,13 @@
 import { reactive, ref} from 'vue';
 import type { Ref } from 'vue';
 import UIFx from 'uifx';
-import { handleKey } from '../utilities/keyHandler';
-import { findTarget } from '../utilities/findTarget';
-import { fieldCheck } from '../utilities/fieldChecker';
-import { placePoint } from '../utilities/placePoint';
-import { gameFile } from '../assets/game';
-import sound from "../assets/sfx/sound.mp3"
-import Timer from './Timer.vue';
+import { handleKey } from '../../utilities/keyHandler';
+import { findTarget } from '../../utilities/findTarget';
+import { fieldCheck } from '../../utilities/fieldChecker';
+import { placePoint } from '../../utilities/placePoint';
+import { gameFile } from '../../assets/game';
+import sound from "../../assets/sfx/sound.mp3"
+import Timer from '../Timer.vue';
 
 let game: Ref<string> =ref(gameFile)
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))

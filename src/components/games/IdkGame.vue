@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import Game from './Game.vue';
 
 </script>
 <template>
-<Game/>
+<h1>IDK THAT GAME BRO</h1>        
 </template>
