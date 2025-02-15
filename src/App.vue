@@ -1,19 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import GameRun from './components/GameRun.vue';
 import HomeView from './views/HomeView.vue';
 
+let router = ref(GameRun)
+
+// wyłączenie scrolla na strzałkach
+window.addEventListener("keydown", function(e) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
 </script>
-
 <template>
-  <div class="flex">
-    <p class="text-4xl">.GAME</p>
-    <div class="flex">
-        <router-link to="/GameRun">GameRun</router-link>
-        <router-link to="/SpeedGame">Speed</router-link>
-        <router-link to="/IdkGame">AJ DONO</router-link>
-    </div>
-    <router-view></router-view>
-</div>
+<HomeView @map="(e:any) => router = e" />
+<component :is="router" />
 </template>
-
 <style scoped>
 </style>

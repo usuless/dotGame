@@ -2,15 +2,15 @@
 import { reactive, ref} from 'vue';
 import type { Ref } from 'vue';
 import UIFx from 'uifx';
-import { handleKey } from '../../utilities/keyHandler';
-import { findTarget } from '../../utilities/findTarget';
-import { fieldCheck } from '../../utilities/fieldChecker';
-import { placePoint } from '../../utilities/placePoint';
-import { gameFile } from '../../assets/game';
-import sound from "../../assets/sfx/sound.mp3"
-import Timer from '../Timer.vue';
+import { handleKey } from '../utilities/keyHandler';
+import { findTarget } from '../utilities/findTarget';
+import { fieldCheck } from '../utilities/fieldChecker';
+import { placePoint } from '../utilities/placePoint';
+import { gameFile1 } from '../assets/maps/game1';
+import sound from "../assets/sfx/sound.mp3"
+import Timer from "./Timer.vue"
 
-let game: Ref<string> =ref(gameFile)
+let game: Ref<string> =ref(gameFile1)
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
 let playerLocation: number[] = findTarget(parsedGame.value, "X")
 let points: Ref<number> = ref(0)
