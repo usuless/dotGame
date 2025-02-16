@@ -49,8 +49,9 @@ document.addEventListener('keydown', function(e) {
   }
 })
 
-
-parsedGame.value = placePoint(parsedGame.value)
+for (let index = 0; index < 10; index++) {
+  parsedGame.value = placePoint(parsedGame.value)
+}
 let pointLocation = findTarget(parsedGame.value, "*")
 </script>
 <template>

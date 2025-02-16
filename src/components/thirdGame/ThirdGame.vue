@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { gameFile2 } from '@/assets/maps/game2';
+import { gameFile3 } from '@/assets/maps/game3';
 import type { Ref } from 'vue';
 import { ref, reactive } from 'vue';
 import UIFx from 'uifx';
@@ -9,7 +9,7 @@ import { placePoint } from '@/utilities/placePoint';
 import { fieldCheck } from '@/utilities/fieldChecker';
 import { handleKey } from '@/utilities/keyHandler';
 
-let game: Ref<string> =ref(gameFile2)
+let game: Ref<string> =ref(gameFile3)
 let parsedGame: Ref<string[]> = ref(game.value.split("\n"))
 let playerLocation: number[] = findTarget(parsedGame.value, "X")
 let points: Ref<number> = ref(0)
@@ -40,18 +40,18 @@ document.addEventListener('keydown', function(e) {
     
           playerLocation = findTarget(parsedGame.value, "X")
           // gracz znalazł punkt
-          if(pointLocation[0] === playerLocation[0] && pointLocation[1] === playerLocation[1]) {
+          if(pointLocations[0] === playerLocation[0] && pointLocations[1] === playerLocation[1]) {
               points.value ++
               pointSound.play()
               parsedGame.value = placePoint(parsedGame.value)
-              pointLocation = findTarget(parsedGame.value, "*")
+              pointLocations = findTarget(parsedGame.value, "*")
             }
   }
 })
 
 
 parsedGame.value = placePoint(parsedGame.value)
-let pointLocation = findTarget(parsedGame.value, "*")
+let pointLocations = findTarget(parsedGame.value, "*")
 </script>
 <template>
 
