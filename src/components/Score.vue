@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const {score} = defineProps<{
-    score: number
+    score: number,
 }>()
+
 </script>
 <template>
     <p class="text-5xl mt-5">

@@ -7,16 +7,20 @@ const {gameMap, score, isGameActive} = defineProps<{
     isGameActive: boolean
 }>()
 
+const model = defineModel("isGameFinished")
+
 </script>
 <template>
-  {{ isGameActive }}
+  {{ model }}
   <div class="flex flex-col h-full pt-10 items-center">
-    <!-- <Timer v-model:points="points" v-model:is-game-on="isGameOn"/> -->
-      <div :class="{'bg-black opacity-35': !isGameActive}" class="flex justify-around w-2/12" v-for="line in gameMap">
+      <div v-if="!model" :class="{'bg-black opacity-35': !isGameActive}" class="flex justify-around w-2/12" v-for="line in gameMap">
         <div class="" v-for="letter in line">
           <p class="size-4"  v-bind="fieldCheck(letter)">
           </p>
         </div>
+      </div>
+      <div v-else class="">
+        <p class="text-2xl">Gratulacje! Twój wynik to:</p>
       </div>
   </div>
 </template>
