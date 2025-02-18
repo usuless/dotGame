@@ -5,6 +5,7 @@ import { useTimer, type UseTimer } from 'vue-timer-hook';
 
 let points = defineModel("points", {type: Number})
 let isGameOn = defineModel("isGameOn",{type: Boolean})
+let emit = defineEmits(['endOfTheGame'])
 
 let time = new Date()
 let pointGain: Ref<boolean> = ref(false)
@@ -30,11 +31,16 @@ const seconds = computed(() => {
   if (isGameOn.value === false) {
     return "20"
   }
+
+  if(timer.seconds.value === 0) {
+    emit('endOfTheGame')
+  }
   if(timer.seconds.value.toString().length === 1) {
     return "0" + timer.seconds.value.toString()
   } else {
     return timer.seconds.value.toString()
   }
+
 })
 
 const pointGained = () => {
@@ -55,7 +61,7 @@ watch(isGameOn, () => {
 
 </script>
 <template>
-  <div class="mb-10 text-5xl flex bg-background">
+  <div class=" text-5xl flex bg-background">
     <p v-show="!pointGain" class="justify-self-center">
       {{seconds}}
     </p>

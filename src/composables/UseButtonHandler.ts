@@ -15,9 +15,4 @@ export const useButtonHandler = () => {
         if (moves.includes(e.key)) {
         }
     });
-
-    const onArrowUp = (fn: () => void) => {
-    };
-
-    return { onArrowUp };
 };

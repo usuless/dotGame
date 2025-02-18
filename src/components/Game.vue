@@ -10,6 +10,8 @@ import { placePoint } from '../utilities/placePoint';
 import sound from "../assets/sfx/sound.mp3"
 import Timer from "./Timer.vue"
 import { loadMap } from '@/utilities/gameMap';
+import Captions from './Captions.vue';
+import Score from './Score.vue';
 
 const mapList = [1, 2, 3]
 const defaultMap = loadMap(1);
@@ -22,6 +24,7 @@ const onMapChange = (mapId: number) => {
   points.value = 0
   mapGame.value = placePoint(mapGame.value)
   pointLocation = findTarget(mapGame.value, "*")
+  isGameOn.value = false
 }
 
 let mapGame: Ref<string[]> = ref(currentMap)
@@ -43,10 +46,10 @@ let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 
 document.addEventListener('keydown', function (e) {
   e.preventDefault()
-  if (moves.includes(e.key)) {
-    if (isGameOn.value === false) {
-      isGameOn.value = true
-    }
+  if (e.key === "Enter") {
+    isGameOn.value = true
+  }
+  if (moves.includes(e.key) && isGameOn.value === true) {
     // rozpoczęcie gry
     mapGame.value = handleKey(e.key, mapGame.value, playerLocation)
 
@@ -61,11 +64,21 @@ document.addEventListener('keydown', function (e) {
   }
 })
 
+const onGameEnd = () => {
+  isGameOn.value = false
+  console.log("działa")
+}
+
 // lokalizacja gracza i punktu
 mapGame.value = placePoint(mapGame.value)
 let pointLocation = findTarget(mapGame.value, "*")
 </script>
 <template>
   <MapSelector @map-change="onMapChange" :map-list="mapList" />
-  <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :score="points" />
+  <div class="flex flex-col items-center">
+    <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
+    <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :score="points" />
+    <Score :score="points" />
+    <Captions :is-game-active="isGameOn" />
+  </div>
 </template>
