@@ -11,7 +11,6 @@ const model = defineModel("isGameFinished")
 
 </script>
 <template>
-  {{ model }}
   <div class="flex flex-col h-full pt-10 items-center">
       <div v-if="!model" :class="{'bg-black opacity-35': !isGameActive}" class="flex justify-around w-2/12" v-for="line in gameMap">
         <div class="" v-for="letter in line">

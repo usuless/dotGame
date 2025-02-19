@@ -19,7 +19,7 @@ const defaultMap = loadMap(1);
 let currentMap = ref<string[]>(defaultMap)
 let isGameFinished = ref(false)
 
-const onMapChange = (mapId: number) => {
+const onGameRefresh = (mapId: number) => {
   currentMap.value = loadMap(mapId);
   playerLocation = findTarget(mapGame.value, "X")
   points.value = 0
@@ -51,6 +51,7 @@ document.addEventListener('keydown', function (e) {
   
   if (e.key === "Enter" && isGameFinished.value === true) {
     points.value = 0
+    isGameOn.value = true
   }
 
   if (e.key === "Enter") {
@@ -76,6 +77,7 @@ document.addEventListener('keydown', function (e) {
 
 const onGameEnd = () => {
   isGameFinished.value = true
+  isGameOn.value = false
 }
 
 // lokalizacja gracza i punktu
@@ -83,7 +85,7 @@ mapGame.value = placePoint(mapGame.value)
 let pointLocation = findTarget(mapGame.value, "*")
 </script>
 <template>
-  <MapSelector @map-change="onMapChange" :map-list="mapList" />
+  <MapSelector @map-change="onGameRefresh" :map-list="mapList" />
   <div class="flex flex-col items-center">
     <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
     <GameRenderer :is-game-finished="isGameFinished" :game-map="currentMap" :is-game-active="isGameOn" :score="points" />
