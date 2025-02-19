@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import GameRenderer from './GameRenderer.vue';
 import MapSelector from '@/components/MapSelector.vue';
 import type { Ref } from 'vue';
@@ -12,6 +12,7 @@ import Timer from "./Timer.vue"
 import { loadMap } from '@/utilities/gameMap';
 import Captions from './Captions.vue';
 import Score from './Score.vue';
+import { supabase } from '@/server/client';
 
 const mapList = [1, 2, 3]
 const defaultMap = loadMap(1);
@@ -80,6 +81,31 @@ const onGameEnd = () => {
   isGameOn.value = false
 }
 
+// server
+
+const db = ref()
+
+const name: Ref<string> = ref("")
+
+  async function getData() {
+  const { data } = await supabase
+  .from('dotGame')
+  .select()
+  db.value = data
+}
+
+async function updateDatabase() {
+    const { data, error } = await supabase
+  .from('dotGame')
+  .insert({value: name.value })
+    db.value = data
+    getData()
+  }
+
+onMounted(() => {
+  getData()
+})
+
 // lokalizacja gracza i punktu
 mapGame.value = placePoint(mapGame.value)
 let pointLocation = findTarget(mapGame.value, "*")
@@ -88,7 +114,7 @@ let pointLocation = findTarget(mapGame.value, "*")
   <MapSelector @map-change="onGameRefresh" :map-list="mapList" />
   <div class="flex flex-col items-center">
     <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
-    <GameRenderer :is-game-finished="isGameFinished" :game-map="currentMap" :is-game-active="isGameOn" :score="points" />
+    <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :is-game-finished="isGameFinished" :score="points" :db="db" />
     <Score :score="points" />
     <Captions :is-game-active="isGameOn" />
   </div>
