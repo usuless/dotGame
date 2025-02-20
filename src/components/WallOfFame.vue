@@ -2,52 +2,36 @@
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import type { Ref } from 'vue';
-import { useSorted } from '@vueuse/core';
 
 const {data , points} = defineProps<{
     data: Array<any>,
     points: number
 }>()
 
-let previousScores: Ref<Array<number>> = ref([])
-
-let finallySorted: Array<number> = []
+let finallySorted: Array<any> = []
 
 const isScoreOnBoard = () => {
-        previousScores.value.push(points)
-        //@ts-ignore
-        let finalSort = useSorted(previousScores.value)
-        finallySorted = sorting(finalSort.value)
+    finallySorted = sorting(data)
 }
 
-const getIdArray = () => {
-
-    data.forEach(player => {
-        previousScores.value.push(player.score)
-    })
-}
-
-const sorting = (array: Array<number>) => {
-    let a1 = []
-    array.forEach(element => {
-    if (!a1.includes(element)) {
-        a1.push(element);
-    }
+const sorting = (array: Array<any>) => {
+    let values = array
+    values.sort(function(a, b) { 
+  return b.score - a.score  ||  a.playerName.localeCompare(b.playerName);
 });
-return a1
+    return values
 }
 
 onMounted(() => {
-    getIdArray()
     isScoreOnBoard()
 })
 
 </script>
 <template>
-    <div class="flex items-center justify-center">
-        <div class="w-6/12">
-            {{ finallySorted }}
-            {{ data }}
+        <div class="grid grid-cols-5 mt-5  place-items-center gap-8">
+            <div class="w-6/12" v-for="player in data">
+                <p class="text-red-500">{{player.playerName}}</p>
+                <p>{{player.score}}</p>
+            </div>
         </div>
-    </div>
 </template>
