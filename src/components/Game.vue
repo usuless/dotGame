@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import GameRenderer from './GameRenderer.vue';
-import MapSelector from '@/components/MapSelector.vue';
+import MapSelector from './MapSelector.vue';
 import type { Ref } from 'vue';
 import UIFx from 'uifx';
 import { handleKey } from '../utilities/keyHandler';
@@ -9,10 +9,10 @@ import { findTarget } from '../utilities/findTarget';
 import { placePoint } from '../utilities/placePoint';
 import sound from "../assets/sfx/sound.mp3"
 import Timer from "./Timer.vue"
-import { loadMap } from '@/utilities/gameMap';
+import { loadMap } from '../utilities/gameMap';
 import Captions from './Captions.vue';
 import Score from './Score.vue';
-import { getData } from '@/server/getData';
+import { getData } from '../server/getData';
 
 const mapList = [1, 2, 3]
 const defaultMap = loadMap(1);

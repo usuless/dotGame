@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { InsertData } from '@/server/insertData';
-import { getData } from '@/server/getData';
+import { getData } from '../server/getData';
+import { InsertData } from '../server/insertData';
 
 const {data , points} = defineProps<{
     data: any,
