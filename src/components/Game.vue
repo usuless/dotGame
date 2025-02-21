@@ -12,7 +12,7 @@ import Timer from "./Timer.vue"
 import { loadMap } from '@/utilities/gameMap';
 import Captions from './Captions.vue';
 import Score from './Score.vue';
-import { supabase } from '@/server/client';
+import { getData } from '@/server/getData';
 
 const mapList = [1, 2, 3]
 const defaultMap = loadMap(1);
@@ -48,7 +48,6 @@ let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 // poruszanie się
 
 document.addEventListener('keydown', function (e) {
-  e.preventDefault()
   
   if (e.key === "Enter" && isGameFinished.value === true) {
     points.value = 0
@@ -59,7 +58,6 @@ document.addEventListener('keydown', function (e) {
     isGameOn.value = true
     isGameFinished.value = false
   }
-
 
   if (moves.includes(e.key) && isGameOn.value === true) {
     // rozpoczęcie gry
@@ -83,27 +81,10 @@ const onGameEnd = () => {
 
 // server
 
-const db = ref()
-
-const name: Ref<string> = ref("")
-
-  async function getData() {
-  const { data } = await supabase
-  .from('dotGame')
-  .select()
-  db.value = data
-}
-
-async function updateDatabase() {
-    const { data, error } = await supabase
-  .from('dotGame')
-  .insert({value: name.value })
-    db.value = data
-    getData()
-  }
+let db = ref()
 
 onMounted(() => {
-  getData()
+  db.value = getData(db)
 })
 
 // lokalizacja gracza i punktu

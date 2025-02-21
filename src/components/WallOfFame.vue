@@ -1,37 +1,46 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { ref } from 'vue';
-import type { Ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { InsertData } from '@/server/insertData';
+import { getData } from '@/server/getData';
 
 const {data , points} = defineProps<{
-    data: Array<any>,
+    data: any,
     points: number
 }>()
 
-let finallySorted: Array<any> = []
+let topScores = ref(data)
 
-const isScoreOnBoard = () => {
-    finallySorted = sorting(data)
+let submitScore = ref(false)
+let playerName = ref('')
+
+let scoreCheck = () => {
+    if(data.length < 10 || data[9].score < points) {
+        submitScore.value = true
+    }
 }
 
-const sorting = (array: Array<any>) => {
-    let values = array
-    values.sort(function(a, b) { 
-  return b.score - a.score  ||  a.playerName.localeCompare(b.playerName);
-});
-    return values
+let submitName = () => {
+    InsertData(playerName.value, points)
+    topScores.value.push({playerName: playerName, score: points})
+    topScores.value = getData(topScores)
+    submitScore.value = false
 }
 
 onMounted(() => {
-    isScoreOnBoard()
+    scoreCheck()
 })
 
 </script>
 <template>
-        <div class="grid grid-cols-5 mt-5  place-items-center gap-8">
-            <div class="w-6/12" v-for="player in data">
+        <div v-if="!submitScore" class="grid grid-cols-5 mt-5  place-items-center gap-8">
+            <div class="w-6/12" v-for="player in topScores">
                 <p class="text-red-500">{{player.playerName}}</p>
                 <p>{{player.score}}</p>
             </div>
+        </div>
+        <div v-else class="flex flex-col items-center my-10">
+            <input v-model="playerName" type="text" class="w-6/12 h-12 mb-5 border-gray-700 border-2 bg-slate-800">
+            <label >Wprowadź imię (nie więcej niż 12 znaków)</label>
+            <button @click="submitName">Wyślij</button>
         </div>
 </template>
