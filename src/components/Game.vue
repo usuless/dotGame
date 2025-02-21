@@ -49,14 +49,9 @@ let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 
 document.addEventListener('keydown', function (e) {
   
-  if (e.key === "Enter" && isGameFinished.value === true) {
+  if (e.key === "Enter" && isGameFinished.value === false) {
     points.value = 0
     isGameOn.value = true
-  }
-
-  if (e.key === "Enter") {
-    isGameOn.value = true
-    isGameFinished.value = false
   }
 
   if (moves.includes(e.key) && isGameOn.value === true) {
@@ -97,6 +92,6 @@ let pointLocation = findTarget(mapGame.value, "*")
     <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
     <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :is-game-finished="isGameFinished" :score="points" :db="db" />
     <Score :score="points" />
-    <Captions :is-game-active="isGameOn" />
+    <Captions @newGame="onGameRefresh" :is-game-active="isGameOn" :is-game-finished="isGameFinished" />
   </div>
 </template>

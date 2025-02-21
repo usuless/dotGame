@@ -12,7 +12,7 @@ let pointGain: Ref<boolean> = ref(false)
 
 const startTime = () => {
   time = new Date()
-  time.setSeconds(time.getSeconds() + 5);
+  time.setSeconds(time.getSeconds() + 20);
   //@ts-ignore
   timer = useTimer(time)
 }

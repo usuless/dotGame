@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { InsertData } from '@/server/insertData';
 import { getData } from '@/server/getData';
 
@@ -30,6 +30,11 @@ onMounted(() => {
     scoreCheck()
 })
 
+watch(submitScore, () => {
+    if(submitScore.value === true) {
+        // usunąć enter jak się wpisuje nick
+    }
+})
 </script>
 <template>
         <div v-if="!submitScore" class="grid grid-cols-5 mt-5  place-items-center gap-8">
@@ -41,6 +46,6 @@ onMounted(() => {
         <div v-else class="flex flex-col items-center my-10">
             <input v-model="playerName" type="text" class="w-6/12 h-12 mb-5 border-gray-700 border-2 bg-slate-800">
             <label >Wprowadź imię (nie więcej niż 12 znaków)</label>
-            <button @click="submitName">Wyślij</button>
+            <button class="border-4 border-white hover:bg-white hover:text-red-500 m-4 p-4" @click="submitName">Wyślij</button>
         </div>
 </template>
