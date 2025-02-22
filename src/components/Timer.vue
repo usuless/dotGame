@@ -28,12 +28,13 @@ const addSecond = () => {
 
 
 const seconds = computed(() => {
-  if (isGameOn.value === false) {
+  if (isGameOn.value === false && points.value === 0) {
     return "20"
   }
 
   if(timer.seconds.value === 0) {
     emit('endOfTheGame')
+    return "KONIEC GRY"
   }
   if(timer.seconds.value.toString().length === 1) {
     return "0" + timer.seconds.value.toString()

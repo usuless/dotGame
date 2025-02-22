@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref} from 'vue';
 import { getData } from '../server/getData';
 import { InsertData } from '../server/insertData';
 
@@ -21,19 +21,12 @@ let scoreCheck = () => {
 
 let submitName = () => {
     InsertData(playerName.value, points)
-    topScores.value.push({playerName: playerName, score: points})
     topScores.value = getData(topScores)
     submitScore.value = false
 }
 
 onMounted(() => {
     scoreCheck()
-})
-
-watch(submitScore, () => {
-    if(submitScore.value === true) {
-        // usunąć enter jak się wpisuje nick
-    }
 })
 </script>
 <template>
