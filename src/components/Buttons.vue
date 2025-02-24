@@ -1,27 +1,27 @@
 <script setup lang="ts">
 
 const emit = defineEmits<{
-  key: (s: string) => void
+  key: [key: string]
 }>()
 
-const handleButton = (key: string) => {
-    //@ts-ignore
-    emit('key', key)
+const handleButton = (event) => {
+    emit('key', event.target.value)
 }
 
 </script>
 <template>
-    <div class="flex w-full justify-center gap-4 m-4">
-        <button @click="handleButton('ArrowUp')" class="kbd">
-            <p class="text-4xl m-4">▲</p>
+    <div class="flex w-full justify-center text-4xl gap-4 m-4">
+        <button @click="handleButton" :value="'ArrowUp'" class="kbd">
+            ▲
         </button>
-        <button @click="handleButton('ArrowLeft')" class="kbd">
-            <p class="text-4xl m-4">◀︎</p></button>
-        <button @click="handleButton('ArrowRight')" class="kbd">
-            <p class="text-4xl m-4">▶︎</p>
+        <button @click="handleButton" :value="'ArrowLeft'" class="kbd">
+            ◀︎
         </button>
-        <button @click="handleButton('ArrowDown')" class="kbd">
-            <p class="text-4xl m-4">▼</p>
+        <button @click="handleButton" :value="'ArrowRight'" class="kbd">
+            ▶︎
+        </button>
+        <button @click="handleButton" :value="'ArrowDown'" class="kbd">
+            ▼
         </button>
       </div>
 </template>
