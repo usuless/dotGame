@@ -91,7 +91,7 @@ let pointLocation = findTarget(mapGame.value, "*")
   <div class="flex flex-col items-center">
     <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
     <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :is-game-finished="isGameFinished" :score="points" :db="db" />
-    <Score :score="points" />
+    <Score :score="points" :is-game-finished="isGameFinished" />
     <Captions @newGame="onGameRefresh" :is-game-active="isGameOn" :is-game-finished="isGameFinished" />
   </div>
 </template>
