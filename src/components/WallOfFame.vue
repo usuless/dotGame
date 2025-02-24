@@ -20,9 +20,13 @@ let scoreCheck = () => {
 }
 
 let submitName = () => {
-    InsertData(playerName.value, points)
-    topScores.value = getData(topScores)
-    submitScore.value = false
+    if(playerName.value.length < 12) {
+        return
+    } else {
+        InsertData(playerName.value, points)
+        topScores.value = getData(topScores)
+        submitScore.value = false
+    }
 }
 
 onMounted(() => {

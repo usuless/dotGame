@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import Buttons from './Buttons.vue';
 import GameRenderer from './GameRenderer.vue';
 import MapSelector from './MapSelector.vue';
-import type { Ref } from 'vue';
+import Score from './Score.vue';
+import Timer from "./Timer.vue"
+import Captions from './Captions.vue';
 import UIFx from 'uifx';
+import sound from "../assets/sfx/sound.mp3"
 import { handleKey } from '../utilities/keyHandler';
 import { findTarget } from '../utilities/findTarget';
 import { placePoint } from '../utilities/placePoint';
-import sound from "../assets/sfx/sound.mp3"
-import Timer from "./Timer.vue"
 import { loadMap } from '../utilities/gameMap';
-import Captions from './Captions.vue';
-import Score from './Score.vue';
 import { getData } from '../server/getData';
+import { onMounted, ref } from 'vue';
+import type { Ref } from 'vue';
 
 const mapList = [1, 2, 3]
 const defaultMap = loadMap(1);
@@ -47,16 +48,15 @@ let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 
 // poruszanie się
 
-document.addEventListener('keydown', function (e) {
-  
-  if (e.key === "Enter" && isGameFinished.value === false) {
+const operation = (e: string) => {
+  if (e === "Enter" && isGameFinished.value === false) {
     points.value = 0
     isGameOn.value = true
   }
 
-  if (moves.includes(e.key) && isGameOn.value === true) {
+  if (moves.includes(e) && isGameOn.value === true) {
     // rozpoczęcie gry
-    mapGame.value = handleKey(e.key, mapGame.value, playerLocation)
+    mapGame.value = handleKey(e, mapGame.value, playerLocation)
 
     playerLocation = findTarget(mapGame.value, "X")
     // gracz znalazł punkt
@@ -67,6 +67,11 @@ document.addEventListener('keydown', function (e) {
       pointLocation = findTarget(mapGame.value, "*")
     }
   }
+  
+}
+
+document.addEventListener('keydown', function (e) {
+  operation(e.key)  
 })
 
 const onGameEnd = () => {
@@ -92,6 +97,7 @@ let pointLocation = findTarget(mapGame.value, "*")
     <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
     <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :is-game-finished="isGameFinished" :score="points" :db="db" />
     <Score :score="points" :is-game-finished="isGameFinished" />
+    <Buttons @key="operation"/>
     <Captions @newGame="onGameRefresh" :is-game-active="isGameOn" :is-game-finished="isGameFinished" />
   </div>
 </template>
