@@ -24,4 +24,7 @@ const handleButton = (event) => {
             ▼
         </button>
       </div>
+      <button @click="handleButton" :value="'Enter'" class="kbd w-6/12 mb-2">
+        ENTER
+    </button>
 </template>
