@@ -2,7 +2,7 @@
 import { fieldCheck } from '../utilities/fieldChecker';
 import WallOfFame from './WallOfFame.vue';
 
-const {gameMap, isGameActive, db, score} = defineProps<{
+const {gameMap, isGameActive, db, score, isGameFinished} = defineProps<{
     gameMap: string[],
     isGameActive: boolean,
     db: Object,

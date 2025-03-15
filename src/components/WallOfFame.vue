@@ -20,7 +20,7 @@ let scoreCheck = () => {
 }
 
 let submitName = () => {
-    if(playerName.value.length < 12) {
+    if(playerName.value.length > 12) {
         return
     } else {
         InsertData(playerName.value, points)

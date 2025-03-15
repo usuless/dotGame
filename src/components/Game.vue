@@ -12,7 +12,7 @@ import { findTarget } from '../utilities/findTarget';
 import { placePoint } from '../utilities/placePoint';
 import { loadMap } from '../utilities/gameMap';
 import { getData } from '../server/getData';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref} from 'vue';
 import type { Ref } from 'vue';
 
 const mapList = [1, 2, 3]
@@ -20,29 +20,31 @@ const defaultMap = loadMap(1);
 
 let currentMap = ref<string[]>(defaultMap)
 let isGameFinished = ref(false)
+let isGameOn: Ref<boolean> = ref(false)
 
-const onGameRefresh = (mapId: number) => {
-  currentMap.value = loadMap(mapId);
-  playerLocation = findTarget(mapGame.value, "X")
-  points.value = 0
-  mapGame.value = placePoint(mapGame.value)
-  pointLocation = findTarget(mapGame.value, "*")
-  isGameOn.value = false
-  isGameFinished.value = false
-}
-
+  
 let mapGame: Ref<string[]> = ref(currentMap)
 let playerLocation: number[] = findTarget(mapGame.value, "X")
 let points: Ref<number> = ref(0)
-let pointSound = new UIFx(
-  sound,
-  {
-    volume: 0.2,
-    throttleMs: 0
-  }
-)
-
-let isGameOn: Ref<boolean> = ref(false)
+  let pointSound = new UIFx(
+    sound,
+    {
+      volume: 0.2,
+      throttleMs: 0
+    }
+  )
+    
+const onGameRefresh = (mapId: number = 1) => {
+  points.value = 0
+  currentMap.value = loadMap(mapId);
+  mapGame.value = placePoint(mapGame.value)
+  playerLocation = findTarget(mapGame.value, "X")
+  pointLocation = findTarget(mapGame.value, "*")
+  isGameOn.value = false
+  isGameFinished.value = false
+  console.log(isGameFinished.value)
+  
+}
 
 let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
 
@@ -94,7 +96,7 @@ let pointLocation = findTarget(mapGame.value, "*")
 <template>
   <MapSelector @map-change="onGameRefresh" :map-list="mapList" />
   <div class="flex flex-col items-center">
-    <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd()" />
+    <Timer :is-game-on="isGameOn" :points="points" @end-of-the-game="onGameEnd" />
     <GameRenderer :game-map="currentMap" :is-game-active="isGameOn" :is-game-finished="isGameFinished" :score="points" :db="db" />
     <Score :score="points" :is-game-finished="isGameFinished" />
     <Buttons @key="operation"/>
