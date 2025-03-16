@@ -13,8 +13,8 @@ const {gameMap, isGameActive, db, score, isGameFinished} = defineProps<{
 </script>
 <template>
   <div class="flex flex-col mt-5" v-if="!isGameFinished">
-      <div :class="{'bg-black opacity-35': !isGameActive}" class="flex justify-around w-2/12" v-for="line in gameMap">
-        <div class="w-full" v-for="letter in line">
+      <div :class="{'bg-black opacity-35': !isGameActive}" class="flex justify-around w-full" v-for="line in gameMap">
+        <div class="" v-for="letter in line">
           <p class="lg:size-4 size-2.5"  v-bind="fieldCheck(letter)">
           </p>
         </div>
