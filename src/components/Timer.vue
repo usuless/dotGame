@@ -22,7 +22,7 @@ let timer: UseTimer;
 const addSecond = () => {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 1 + timer.seconds.value);
-//@ts-ignore
+  //@ts-ignore
   timer.restart(time)
 }
 

@@ -22,7 +22,6 @@ let currentMap = ref<string[]>(defaultMap)
 let isGameFinished = ref(false)
 let isGameOn: Ref<boolean> = ref(false)
 
-  
 let mapGame: Ref<string[]> = ref(currentMap)
 let playerLocation: number[] = findTarget(mapGame.value, "X")
 let points: Ref<number> = ref(0)
@@ -42,8 +41,6 @@ const onGameRefresh = (mapId: number = 1) => {
   pointLocation = findTarget(mapGame.value, "*")
   isGameOn.value = false
   isGameFinished.value = false
-  console.log(isGameFinished.value)
-  
 }
 
 let moves: string[] = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
